@@ -3,20 +3,20 @@
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
-
+from pygame.locals import *
 from code.Const import WIN_HEIGHT, WIN_WIDTH
-
-
+from code.MenuAnimated import MenuAnimate
+menu = MenuAnimate()
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.surf = pygame.image.load('./asset/Menu.png')
-        self.rect = self.surf.get_rect(left=0, top=0)
+
     def run(self, ):
         pygame.mixer_music.load('./asset/cosmos.mp3')
         pygame.mixer.music.play(-1)
         while True:
-            self.window.blit(source=self.surf, dest=self.rect)
+            menu.draw(self.window)
+            menu.updade()
             self.menu_text(50,"New game 1P " ,(255,215,0),((WIN_WIDTH/2),300))
             self.menu_text(50, "New game 2P Coop ", (255, 215, 0), ((WIN_WIDTH / 2), 340))
             self.menu_text(50, "New game 2P Pvp ", (255, 215, 0), ((WIN_WIDTH / 2), 380))
