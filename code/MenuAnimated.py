@@ -14,12 +14,18 @@ class MenuAnimate(pygame.sprite.Sprite):
         self.sprite_menu.append(pygame.image.load('asset/MenuFrame/MenuFrame5.png.png'))
         self.sprite_menu.append(pygame.image.load('asset/MenuFrame/MenuFrame6.png.png'))
         self.sprite_menu.append(pygame.image.load('asset/MenuFrame/MenuFrame7.png.png'))
+        self.sprite_menu.append(pygame.image.load('asset/MenuFrame/MenuFrame8.png.png'))
         self.atual = 0
         self.image = self.sprite_menu[self.atual]
         self.rect = self.image.get_rect()
-        self.rect,topleft = 0, 0
+        self.rect.topleft = 0, 0
 
-    def draw(self,window):
-        self.window = window
-        self.draw(self.window)
+    def update(self):
+        self.atual = self.atual + 0.3
+        if self.atual >= len(self.sprite_menu):
+            self.atual = 0
+        self.image = self.sprite_menu[int(self.atual)]
+
+
+
 
