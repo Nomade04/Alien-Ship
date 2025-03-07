@@ -16,7 +16,7 @@ Animacao.add(AnimacaoMenu)
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.surf = pygame.image.load('./asset/Titulo_Game.png')
+        self.surf = pygame.image.load('./asset/Titulo_Game2.png')
         self.rect = self.surf.get_rect(left=(WIN_WIDTH/4), top=75)
         self.surf =pygame.transform.scale(self.surf,(655/1.5,211/1.5))
     def run(self):
