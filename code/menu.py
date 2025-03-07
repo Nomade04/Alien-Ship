@@ -17,13 +17,15 @@ class Menu:
     def __init__(self, window):
         self.window = window
         self.surf = pygame.image.load('./asset/Titulo_Game.png')
-        self.rect = self.surf.get_rect(left=20, top=20)
+        self.rect = self.surf.get_rect(left=(WIN_WIDTH/4), top=75)
+        self.surf =pygame.transform.scale(self.surf,(655/1.5,211/1.5))
     def run(self):
         pygame.mixer_music.load('./asset/cosmos.mp3')
         pygame.mixer.music.play(-1)
         while True:
             Animacao.draw(self.window)
             Animacao.update()
+            self.window.blit(source=self.surf, dest=self.rect)
             self.menu_text(50,"New game 1P " ,(255,215,0),((WIN_WIDTH/2),300))
             self.menu_text(50, "New game 2P Coop ", (255, 215, 0), ((WIN_WIDTH / 2), 340))
             self.menu_text(50, "New game 2P Pvp ", (255, 215, 0), ((WIN_WIDTH / 2), 380))
