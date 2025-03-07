@@ -16,7 +16,8 @@ Animacao.add(AnimacaoMenu)
 class Menu:
     def __init__(self, window):
         self.window = window
-
+        self.surf = pygame.image.load('./asset/Titulo_Game.png')
+        self.rect = self.surf.get_rect(left=20, top=20)
     def run(self):
         pygame.mixer_music.load('./asset/cosmos.mp3')
         pygame.mixer.music.play(-1)
