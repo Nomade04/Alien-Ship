@@ -5,7 +5,7 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 from pygame.locals import *
-from code.Const import WIN_HEIGHT, WIN_WIDTH
+from code.Const import *
 from code.MenuAnimated import MenuAnimate
 
 Animacao = pygame.sprite.Group()
@@ -22,14 +22,20 @@ class Menu:
     def run(self):
         pygame.mixer_music.load('./asset/cosmos.mp3')
         pygame.mixer.music.play(-1)
+        op_select = 0
+
         while True:
+
             Animacao.draw(self.window)
             Animacao.update()
             self.window.blit(source=self.surf, dest=self.rect)
-            self.menu_text(50,"New game 1P " ,(255,215,0),((WIN_WIDTH/2),300))
-            self.menu_text(50, "New game 2P Coop ", (255, 215, 0), ((WIN_WIDTH / 2), 340))
-            self.menu_text(50, "New game 2P Pvp ", (255, 215, 0), ((WIN_WIDTH / 2), 380))
-            self.menu_text(50, "Score ", (255, 255, 255), ((WIN_WIDTH / 2), 420))
+
+            self.menu_text(50,"New game" ,COLOR_CIEN,((WIN_WIDTH/2),300))
+            self.menu_text(50, "New game - 2P Coop ", COLOR_WHITE, ((WIN_WIDTH / 2), 340))
+            self.menu_text(50, "New game - 2P PvP ", COLOR_WHITE, ((WIN_WIDTH / 2), 380))
+            self.menu_text(50, "Score ", COLOR_WHITE, ((WIN_WIDTH / 2), 420))
+            self.menu_text(50, "EXIT ", COLOR_WHITE, ((WIN_WIDTH - 760), 460))
+
             pygame.display.flip()
 
             # checando todos os eventos
