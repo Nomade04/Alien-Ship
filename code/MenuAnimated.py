@@ -1,7 +1,4 @@
 import pygame
-from pygame.locals import *
-
-
 
 class MenuAnimate(pygame.sprite.Sprite):
     def __init__(self):

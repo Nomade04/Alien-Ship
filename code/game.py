@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 import pygame
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT
+from code.Const import WIN_WIDTH, WIN_HEIGHT, text
+from code.level import Level
 from code.menu import Menu
 
 
@@ -13,14 +14,14 @@ class Game:
         self.window = pygame.display.set_mode(size=(WIN_WIDTH, WIN_HEIGHT))
 
     def run(self):
-        print("Setup start")
-        print("Setup end")
-        print("loop start")
 
         while True:
             menu = Menu(self.window)
-            menu.run()
-            pass
+            menu_return = menu.run()
+
+            if menu_return in [text[0],text[1],text[2]]:
+                level = Level(self.window,'Level 1', menu_return)
+                level_return = level.run()
 
 
 
