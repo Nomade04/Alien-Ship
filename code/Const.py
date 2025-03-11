@@ -1,4 +1,6 @@
 #-------------Tamanho da tela------------
+import pygame
+
 WIN_WIDTH = 820
 WIN_HEIGHT = 480
 #-----------------Cores------------------
@@ -28,3 +30,6 @@ ENTITY_SPEED = {
     'level_4': 6,
     'level_5': 8,
 }
+exit_scren = pygame.image.load('./asset/MenuFrame/EXIT_scren.png')
+exit_rect = exit_scren.get_rect(left=(150), top=60)
+exit_scren = pygame.transform.scale(exit_scren, (510, 400))

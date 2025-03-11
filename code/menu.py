@@ -46,7 +46,7 @@ class Menu:
 
             # Mensagem de saida e fechamendo pelo menu
             if self.Exit:
-                self.window.blit(self.exit_scren, self.exit_rect)
+                self.window.blit(exit_scren,exit_rect)
                 self.menu_text(40, 'Are you sure you want to leave?', COLOR_WHITE, ((WIN_WIDTH / 2), 205))
                 self.select_exit(self.op_exitAtual, exit_listPosition, exit_listText)
                 if self.close:
