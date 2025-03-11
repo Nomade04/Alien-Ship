@@ -4,7 +4,7 @@ import pygame
 from pygame import event
 from pygame import Surface, Rect
 from pygame.font import Font
-from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition, exit_listText, exit_scren, exit_rect, COLOR_CIEN
+from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, exit_rect_level, COLOR_CIEN
 from code.entity import Entity
 from code.entityFactory import EntityFactory
 from code.menu import Menu
@@ -28,9 +28,9 @@ class Level:
                     self.window.blit(source=ent.surf, dest=ent.rect)
                     ent.move()
             if self.Exit:
-                self.window.blit(exit_scren, exit_rect)
+                self.window.blit(exit_scren_level, exit_rect_level)
                 self.menu_text(40, 'Are you sure you want to leave?', COLOR_WHITE,  ((WIN_WIDTH / 2), 205))
-                self.select_exit(self.op_exitAtual, exit_listPosition, exit_listText)
+                self.select_exit(self.op_exitAtual, exit_listPosition_level, exit_listText_level)
                 if self.close:
                     pygame.quit()
                     quit()
@@ -44,13 +44,17 @@ class Level:
                             self.op_exitAtual = 0
                         if event.key == pygame.K_d:
                             self.op_exitAtual = 1
-
+                        if event.key == pygame.K_s:
+                            self.op_exitAtual = 2
                     if event.key == pygame.K_RETURN:
                         if self.op_exitAtual == 1:
                             self.Exit = False
                             self.op_exitAtual = None
                         elif self.op_exitAtual == 0:
                             self.close = True
+                        elif self.op_exitAtual == 2:
+                            self.op_exitAtual = None
+                            return
             pygame.display.flip()
     def menu_text(self, text_size: int, text: str, color: tuple, text_position: tuple):
         text_font: Font = pygame.font.SysFont(name="lucida Sans Typewriter", size=text_size)
