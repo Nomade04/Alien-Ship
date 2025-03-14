@@ -13,8 +13,8 @@ text = []
 exit_listText = ['Yes', 'No']
 exit_listPosition = [(250,260),(570,260)]
 text.append("New Game")
-text.append("New game - 2P Coop ")
-text.append("New game - 2P PvP ")
+text.append("New game - 2P Coop")
+text.append("New game - 2P PvP")
 text.append("Score")
 text.append("EXIT")
 exit_scren = pygame.image.load('./asset/MenuFrame/EXIT_scren.png')
@@ -28,10 +28,10 @@ select_list.append(((WIN_WIDTH - 760), 460))
 #----------------lEVEL----------------------
 ENTITY_SPEED = {
     'level_1': 0,
-    'level_2': 2,
-    'level_3': 4,
-    'level_4': 6,
-    'level_5': 8,
+    'level_2': 1,
+    'level_3': 2,
+    'level_4': 3,
+    'level_5': 4
 }
 exit_rect_level = exit_scren.get_rect(left=(150), top=35)
 exit_scren_level = pygame.transform.scale(exit_scren, (510, 480))

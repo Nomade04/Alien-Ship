@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 from pygame.locals import *
