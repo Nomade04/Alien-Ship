@@ -1,10 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import random
+
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, \
-    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text
+    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY
 from code.entity import Entity
 from code.entityFactory import EntityFactory
 from code.player import Player
@@ -28,6 +30,7 @@ class Level:
         self.player1 = Player(1)
         self.Sprites.add(self.player1)
         self.TimeOut = 300000
+        pygame.time.set_timer(EVENT_ENEMY,1000*(random.randint(2,7)))
 
     def run(self):
         pygame.mixer_music.load('./asset/Sounds/level_1.mp3')
@@ -59,10 +62,13 @@ class Level:
 
             self.level_text(20,f"fps: {Clock.get_fps() :.0f}",COLOR_WHITE,(10,WIN_HEIGHT -35))
             self.level_text(25,f'{self.name} Time Out: | {self.TimeOut/1000//60 :.0f}: {self.TimeOut/1000%60 :.0f} m |', COLOR_WHITE,(10,5))
-            self.level_text(15, f'Entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT -15)  )
+            self.level_text(15, f'Entidades: {len(self.entity_list)-10}', COLOR_WHITE, (10, WIN_HEIGHT -15)  )
 
 
             for event in pygame.event.get():
+                if event.type == EVENT_ENEMY:
+                    number = random.randint(1,3)
+                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-{number}'))
                 if event.type == pygame.QUIT:
                     self.Exit = True
                 if event.type == pygame.KEYDOWN:

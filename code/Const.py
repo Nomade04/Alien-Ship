@@ -31,9 +31,14 @@ ENTITY_SPEED = {
     'level_2': 1,
     'level_3': 2,
     'level_4': 3,
-    'level_5': 4
+    'level_5': 4,
+    'Enemy-1': 1,
+    'Enemy-2': 2,
+    'Enemy-3': 3,
+
 }
 exit_rect_level = exit_scren.get_rect(left=(150), top=35)
 exit_scren_level = pygame.transform.scale(exit_scren, (510, 480))
 exit_listText_level = ['Yes', 'No', 'Return to menu']
 exit_listPosition_level = [(250,260),(570,260),(413,300)]
+EVENT_ENEMY = pygame.USEREVENT + 1
