@@ -7,6 +7,7 @@ from pygame import Surface, Rect
 from pygame.font import Font
 from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, \
     exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY
+from code.EntityMediator import EntityMediator
 from code.entity import Entity
 from code.entityFactory import EntityFactory
 from code.player import Player
@@ -40,6 +41,8 @@ class Level:
 
         while True:
             Clock.tick(60)
+            EntityMediator.verify_collision(entity_list= self.entity_list)
+            EntityMediator.verify_health(entity_list= self.entity_list)
 
             if not self.Exit:
                 for ent in self.entity_list:
