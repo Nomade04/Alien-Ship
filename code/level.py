@@ -64,7 +64,7 @@ class Level:
                     if self.mode in [text[1],text[2]]:
                         self.player2.move(2)
                     if isinstance(ent, Enemy):
-                        shot = ent.shot()
+                        shot = ent.shot(self.window)
                         if shot is not None:
                             self.entity_list.append(shot)
 
