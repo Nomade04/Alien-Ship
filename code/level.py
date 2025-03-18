@@ -8,6 +8,7 @@ from pygame.font import Font
 from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, \
     exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY
 from code.EntityMediator import EntityMediator
+from code.enemy import Enemy
 from code.entity import Entity
 from code.entityFactory import EntityFactory
 from code.player import Player
@@ -31,7 +32,7 @@ class Level:
         self.player1 = Player(1)
         self.Sprites.add(self.player1)
         self.TimeOut = 300000
-        pygame.time.set_timer(EVENT_ENEMY,1000*(random.randint(2,7)))
+        pygame.time.set_timer(EVENT_ENEMY,1000*(random.randint(4,7)))#*(random.randint(2,7))
 
     def run(self):
         pygame.mixer_music.load('./asset/Sounds/level_1.mp3')
@@ -44,6 +45,15 @@ class Level:
             EntityMediator.verify_collision(entity_list= self.entity_list)
             EntityMediator.verify_health(entity_list= self.entity_list)
 
+            pressed_k = pygame.key.get_pressed()
+            if pressed_k[pygame.K_SPACE]:
+                play_shot1 = self.player1.shot()
+                if play_shot1 is not None:
+                    self.entity_list.append(play_shot1)
+            if pressed_k[pygame.K_RCTRL]:
+                play_shot2 = self.player2.shot()
+                if play_shot2 is not None:
+                    self.entity_list.append(play_shot2)
             if not self.Exit:
                 for ent in self.entity_list:
                     self.window.blit(source=ent.surf, dest=ent.rect)
@@ -53,7 +63,10 @@ class Level:
                     self.player1.move(1)
                     if self.mode in [text[1],text[2]]:
                         self.player2.move(2)
-
+                    if isinstance(ent, Enemy):
+                        shot = ent.shot()
+                        if shot is not None:
+                            self.entity_list.append(shot)
 
             if self.Exit:
                 self.window.blit(exit_scren_level, exit_rect_level)
@@ -71,7 +84,7 @@ class Level:
             for event in pygame.event.get():
                 if event.type == EVENT_ENEMY:
                     number = random.randint(1,3)
-                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-{number}'))
+                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-{number}'))#{number}
                 if event.type == pygame.QUIT:
                     self.Exit = True
                 if event.type == pygame.KEYDOWN:

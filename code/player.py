@@ -3,6 +3,7 @@
 import pygame
 
 from code.Const import WIN_HEIGHT
+from code.PlayerShot import PlayerShot
 
 
 class Player(pygame.sprite.Sprite):
@@ -11,6 +12,8 @@ class Player(pygame.sprite.Sprite):
         self.sprite = []
         self.atual = 0
         self.number = number
+        self.shot_delay = 5
+
         if number == 1:
             for i in range(10):
                 self.name = f'Player1_{i + 1}'
@@ -61,10 +64,13 @@ class Player(pygame.sprite.Sprite):
                 if pressed_k[pygame.K_UP]:
                     self.rect.centery -= 1
 
-    def fire(self):
-        pressed_k = pygame.key.get_pressed()
-        if pressed_k[pygame.K_g]:
-            pass
+    def shot(self):
+        self.shot_delay -= 1
+        if self.shot_delay == 0:
+            self.shot_delay = 10
+            return PlayerShot(name='Player-Shot', position = (self.rect.centerx,self.rect.centery +30))
+
+            # self.delay = self.shot_delay
 
     def update(self):
         self.atual = self.atual + 0.04

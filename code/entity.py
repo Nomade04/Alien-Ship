@@ -16,9 +16,15 @@ class Entity(ABC):
         if 'level' in name:
             self.surf = pygame.transform.scale(self.surf,(WIN_WIDTH,WIN_HEIGHT))
         if 'Enemy-1' in name:
-            self.surf = pygame.transform.scale(self.surf,(100,100))
+            self.surf = pygame.transform.scale(self.surf,(80,45))
         elif 'Enemy' in name:
-            self.surf = pygame.transform.scale(self.surf,(150,150))
+            self.surf = pygame.transform.scale(self.surf,(100,55))
+        if 'Enemy-1Shot' in name:
+            self.surf = pygame.transform.scale(self.surf,(20,10))
+        elif 'Enemy-2Shot' in name:
+            self.surf = pygame.transform.scale(self.surf,(35,30))
+        elif 'Enemy-3Shot' in name:
+            self.surf = pygame.transform.scale(self.surf, (50, 30))
 
         self.rect = self.surf.get_rect(left=position[0],top=position[1])
         self.speed = 0

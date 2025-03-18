@@ -35,6 +35,11 @@ ENTITY_SPEED = {
     'Enemy-1': 1,
     'Enemy-2': 2,
     'Enemy-3': 3,
+    'Enemy-1Shot': 6,
+    'Enemy-2Shot': 7,
+    'Enemy-3Shot': 9,
+    'Player-Shot':10
+
 
 }
 exit_rect_level = exit_scren.get_rect(left=(150), top=35)
@@ -52,4 +57,20 @@ ENTITY_HEALTH = {
     'Enemy-1': 150,
     'Enemy-2': 100,
     'Enemy-3': 70,
+    'Player-Shot': 1,
+    'Enemy-1Shot': 1,
+    'Enemy-2Shot': 1,
+    'Enemy-3Shot': 1,
+
+}
+SHOT_DELAY = {
+    'Enemy-1': 80,
+    'Enemy-2': 70,
+    'Enemy-3': 60,
+
+}
+SHIP_FRAMES = {
+    1 : 4,
+    2 : 6,
+    3 : 3
 }
