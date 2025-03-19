@@ -5,8 +5,10 @@ import random
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
+
+from code.Animacao import animacao
 from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, \
-    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY
+    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY, ANIM_DELAY
 from code.EntityMediator import EntityMediator
 from code.enemy import Enemy
 from code.entity import Entity
@@ -17,6 +19,7 @@ from code.player import Player
 
 class Level:
     def __init__(self, window, name, mode):
+        self.atual = 0
         self.close = None
         self.op_exitAtual = None
         self.Exit = False
@@ -32,6 +35,7 @@ class Level:
         self.player1 = Player(1)
         self.Sprites.add(self.player1)
         self.TimeOut = 300000
+        self.Shot_animated = pygame.sprite.Group()
         pygame.time.set_timer(EVENT_ENEMY,1000*(random.randint(4,7)))#*(random.randint(2,7))
 
     def run(self):
@@ -54,6 +58,7 @@ class Level:
                 play_shot2 = self.player2.shot()
                 if play_shot2 is not None:
                     self.entity_list.append(play_shot2)
+
             if not self.Exit:
                 for ent in self.entity_list:
                     self.window.blit(source=ent.surf, dest=ent.rect)
@@ -63,9 +68,34 @@ class Level:
                     self.player1.move(1)
                     if self.mode in [text[1],text[2]]:
                         self.player2.move(2)
+
+                    for ent in self.entity_list:
+                        if ent.name == 'Enemy-1':
+                            atual =0
+                            anim_shot1 = animacao()
+                            animated = anim_shot1.animated(1)
+                            inicio = pygame.time.get_ticks()
+                            atraso = ANIM_DELAY[1]
+
+                            if pygame.time.get_ticks() - inicio >= atraso:
+                                atual += 0.5  # (frame/AnimatedTime)
+                                if atual >= len(animated):
+                                    atual = 0
+                                self.window.blit(source=anim_shot1.sprite[int(atual)], dest=ent.rect)
+
+
+
                     if isinstance(ent, Enemy):
                         shot = ent.shot(self.window)
                         if shot is not None:
+                            # if ent.name == 'Enemy-1':
+                            #     anim_shot1 = animacao(1, ent.rect)
+                            #     if anim_shot1.delay():
+                            #         self.window.blit(source=anim_shot1.sprite[anim_shot1.atual], dest=ent.rect)
+                            #         anim_shot1.update()
+                            # animaca = animacao(ent, (self.rect.centerx - 60, self.rect.centery - 5))
+                            # Shot_animated.add(animaca)
+                            # self.Shot_animated.append()
                             self.entity_list.append(shot)
 
             if self.Exit:
@@ -84,7 +114,7 @@ class Level:
             for event in pygame.event.get():
                 if event.type == EVENT_ENEMY:
                     number = random.randint(1,3)
-                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-{number}'))#{number}
+                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-1'))#{number}
                 if event.type == pygame.QUIT:
                     self.Exit = True
                 if event.type == pygame.KEYDOWN:

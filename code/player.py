@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.number = number
         self.shot_delay = 5
 
+
         if number == 1:
             for i in range(10):
                 self.name = f'Player1_{i + 1}'

@@ -69,6 +69,12 @@ SHOT_DELAY = {
     'Enemy-3': 60,
 
 }
+ANIM_DELAY = {
+    1: 50,
+    2: 40,
+    3: 30,
+
+}
 SHIP_FRAMES = {
     1 : 4,
     2 : 6,
