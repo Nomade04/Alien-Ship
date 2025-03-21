@@ -9,11 +9,14 @@ from code.PlayerShot import PlayerShot
 class Player(pygame.sprite.Sprite):
     def __init__(self, number: int):
         super().__init__()
+        self.instancing = False
         self.sprite = []
         self.atual = 0
         self.number = number
         self.shot_delay = 5
-
+        self.health = 5
+        self.instance = True
+        self.respaw_health = 5
 
         if number == 1:
             for i in range(10):
@@ -32,38 +35,43 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         if number == 1:
             self.rect.topleft = 10, WIN_HEIGHT / 3
+            self.respaw_point = 10, WIN_HEIGHT / 3
         elif number == 2:
             self.rect.topleft = 10, WIN_HEIGHT / 8
+            self.respaw_point = self.rect.topleft
+
 
     def move(self, number: int):
         if number == 1:
             pressed_k = pygame.key.get_pressed()
-            if not self.rect.centerx <= 50:
-                if pressed_k[pygame.K_a]:
-                    self.rect.centerx -= 1
-            if not self.rect.centerx >= 400:
-                if pressed_k[pygame.K_d]:
-                    self.rect.centerx += 1
-            if not self.rect.centery >= WIN_HEIGHT - 50:
-                if pressed_k[pygame.K_s]:
-                    self.rect.centery += 1
-            if not self.rect.centery <= 50:
-                if pressed_k[pygame.K_w]:
-                    self.rect.centery -= 1
+            if self.instance:
+                if not self.rect.centerx <= 50:
+                    if pressed_k[pygame.K_a]:
+                        self.rect.centerx -= 1
+                if not self.rect.centerx >= 400:
+                    if pressed_k[pygame.K_d]:
+                        self.rect.centerx += 1
+                if not self.rect.centery >= WIN_HEIGHT - 50:
+                    if pressed_k[pygame.K_s]:
+                        self.rect.centery += 1
+                if not self.rect.centery <= 50:
+                    if pressed_k[pygame.K_w]:
+                        self.rect.centery -= 1
         elif number == 2:
             pressed_k = pygame.key.get_pressed()
-            if not self.rect.centerx <= 50:
-                if pressed_k[pygame.K_LEFT]:
-                    self.rect.centerx -= 1
-            if not self.rect.centerx >= 400:
-                if pressed_k[pygame.K_RIGHT]:
-                    self.rect.centerx += 1
-            if not self.rect.centery >= WIN_HEIGHT - 50:
-                if pressed_k[pygame.K_DOWN]:
-                    self.rect.centery += 1
-            if not self.rect.centery <= 50:
-                if pressed_k[pygame.K_UP]:
-                    self.rect.centery -= 1
+            if self.instance:
+                if not self.rect.centerx <= 50:
+                    if pressed_k[pygame.K_LEFT]:
+                        self.rect.centerx -= 1
+                if not self.rect.centerx >= 400:
+                    if pressed_k[pygame.K_RIGHT]:
+                        self.rect.centerx += 1
+                if not self.rect.centery >= WIN_HEIGHT - 50:
+                    if pressed_k[pygame.K_DOWN]:
+                        self.rect.centery += 1
+                if not self.rect.centery <= 50:
+                    if pressed_k[pygame.K_UP]:
+                        self.rect.centery -= 1
 
     def shot(self):
         self.shot_delay -= 1

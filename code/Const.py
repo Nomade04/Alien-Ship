@@ -47,6 +47,8 @@ exit_scren_level = pygame.transform.scale(exit_scren, (510, 480))
 exit_listText_level = ['Yes', 'No', 'Return to menu']
 exit_listPosition_level = [(250,260),(570,260),(413,300)]
 EVENT_ENEMY = pygame.USEREVENT + 1
+EVENT_RESPAW = pygame.USEREVENT + 2
+PLAYER_CHEK = pygame.USEREVENT + 3
 
 ENTITY_HEALTH = {
     'level_1': 999,
@@ -54,15 +56,16 @@ ENTITY_HEALTH = {
     'level_3': 999,
     'level_4': 999,
     'level_5': 999,
-    'Enemy-1': 150,
-    'Enemy-2': 100,
-    'Enemy-3': 70,
+    'Enemy-1': 15,
+    'Enemy-2': 10,
+    'Enemy-3': 7,
     'Player-Shot': 1,
     'Enemy-1Shot': 1,
     'Enemy-2Shot': 1,
     'Enemy-3Shot': 1,
 
 }
+
 SHOT_DELAY = {
     'Enemy-1': 80,
     'Enemy-2': 70,

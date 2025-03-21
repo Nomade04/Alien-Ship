@@ -6,9 +6,11 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 
+from code import menu
 from code.Animacao import animacao
 from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, \
-    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY, ANIM_DELAY
+    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY, ANIM_DELAY, EVENT_RESPAW, PLAYER_CHEK
+from code.EnemyShot import EnemyShot
 from code.EntityMediator import EntityMediator
 from code.enemy import Enemy
 from code.entity import Entity
@@ -19,6 +21,8 @@ from code.player import Player
 
 class Level:
     def __init__(self, window, name, mode):
+        self.event_respawn = False
+        self.rum = False
         self.atual = 0
         self.close = None
         self.op_exitAtual = None
@@ -28,14 +32,22 @@ class Level:
         self.mode = mode
         self.entity_list: list[Entity] = []
         self.entity_list.extend(EntityFactory.get_entity('level'))
+        self.players = []
         self.Sprites = pygame.sprite.Group()
+        self.SpriteShot = pygame.sprite.Group()
         if self.mode in [text[1],text[2]]:
             self.player2 = Player(2)
             self.Sprites.add(self.player2)
+            self.players.append(self.player2)
+
         self.player1 = Player(1)
         self.Sprites.add(self.player1)
+        self.players.append(self.player1)
         self.TimeOut = 300000
         self.Shot_animated = pygame.sprite.Group()
+        self.animation1 = animacao(1)
+        pygame.time.set_timer(PLAYER_CHEK,100)
+
         pygame.time.set_timer(EVENT_ENEMY,1000*(random.randint(4,7)))#*(random.randint(2,7))
 
     def run(self):
@@ -46,20 +58,42 @@ class Level:
 
         while True:
             Clock.tick(60)
-            EntityMediator.verify_collision(entity_list= self.entity_list)
+            EntityMediator.verify_collision(players=self.players, entity_list= self.entity_list)
             EntityMediator.verify_health(entity_list= self.entity_list)
 
+            print(len(self.Sprites))
             pressed_k = pygame.key.get_pressed()
-            if pressed_k[pygame.K_SPACE]:
-                play_shot1 = self.player1.shot()
-                if play_shot1 is not None:
-                    self.entity_list.append(play_shot1)
-            if pressed_k[pygame.K_RCTRL]:
-                play_shot2 = self.player2.shot()
-                if play_shot2 is not None:
-                    self.entity_list.append(play_shot2)
+            for i in range(len(self.players)):
+                if self.players[i].instance:
+                    if pressed_k[pygame.K_SPACE]:
+                        play_shot1 = self.player1.shot()
+                        if play_shot1 is not None:
+                            self.entity_list.append(play_shot1)
+                if self.players[i].number == 2:
+                    if self.players[i].instance:
+                        if pressed_k[pygame.K_RCTRL]:
+                            play_shot2 = self.player2.shot()
+                            if play_shot2 is not None:
+                                self.entity_list.append(play_shot2)
 
             if not self.Exit:
+
+                for i in range(len(self.players)):
+                    if self.players[i].health <= 0:
+                        self.Sprites.remove(self.players[i])
+                        self.players[i].instance = False
+                #         self.event_respawn = True
+                #
+                #
+                # if len(self.Sprites) == self.mode:
+                #     self.event_respawn = False
+                #
+                # if self.event_respawn:
+                #     pygame.time.set_timer(EVENT_RESPAW, 10000)
+
+
+                print(self.player1.health)
+
                 for ent in self.entity_list:
                     self.window.blit(source=ent.surf, dest=ent.rect)
                     ent.move()
@@ -69,34 +103,34 @@ class Level:
                     if self.mode in [text[1],text[2]]:
                         self.player2.move(2)
 
-                    for ent in self.entity_list:
-                        if ent.name == 'Enemy-1':
-                            atual =0
-                            anim_shot1 = animacao()
-                            animated = anim_shot1.animated(1)
-                            inicio = pygame.time.get_ticks()
-                            atraso = ANIM_DELAY[1]
-
-                            if pygame.time.get_ticks() - inicio >= atraso:
-                                atual += 0.5  # (frame/AnimatedTime)
-                                if atual >= len(animated):
-                                    atual = 0
-                                self.window.blit(source=anim_shot1.sprite[int(atual)], dest=ent.rect)
-
-
-
                     if isinstance(ent, Enemy):
-                        shot = ent.shot(self.window)
+                        shot = ent.shot()
                         if shot is not None:
-                            # if ent.name == 'Enemy-1':
-                            #     anim_shot1 = animacao(1, ent.rect)
-                            #     if anim_shot1.delay():
-                            #         self.window.blit(source=anim_shot1.sprite[anim_shot1.atual], dest=ent.rect)
-                            #         anim_shot1.update()
-                            # animaca = animacao(ent, (self.rect.centerx - 60, self.rect.centery - 5))
-                            # Shot_animated.add(animaca)
-                            # self.Shot_animated.append()
                             self.entity_list.append(shot)
+                    # for entshot in self.entity_list:
+                    #     if isinstance(entshot, EnemyShot):
+                    #         animation1 = animacao(1)
+                    #         animation1.rect.topleft = entshot.initial
+                    #
+                    #         if not animation1.finished:  # Só desenha se a animação não terminou
+                    #             self.window.blit(animation1.image, animation1.rect)
+                    #             animation1.update()
+                    #         else:
+                    #             self.entity_list.remove(entshot)
+
+                                # animacao.draw(animation1)
+
+                        # if ent.name =='Enemy-1':
+                        #
+                        #     self.SpriteShot.draw(self.window)
+                        #     self.SpriteShot.update()
+                            # animation1.move(1)
+                            # print(self.SpriteShot)
+                            # for spr in self.SpriteShot:
+                            #     print(spr.atual)
+                            #     if spr.atual >= 3:
+                            #         self.SpriteShot.remove(spr)
+
 
             if self.Exit:
                 self.window.blit(exit_scren_level, exit_rect_level)
@@ -110,11 +144,42 @@ class Level:
             self.level_text(25,f'{self.name} Time Out: | {self.TimeOut/1000//60 :.0f}: {self.TimeOut/1000%60 :.0f} m |', COLOR_WHITE,(10,5))
             self.level_text(15, f'Entidades: {len(self.entity_list)-10}', COLOR_WHITE, (10, WIN_HEIGHT -15)  )
 
-
             for event in pygame.event.get():
                 if event.type == EVENT_ENEMY:
                     number = random.randint(1,3)
-                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-1'))#{number}
+                    self.entity_list.append(EntityFactory.get_entity(f'Enemy-{number}'))#{number}
+
+                if event.type == PLAYER_CHEK:
+                    for i in range(len(self.players)):
+                        if not self.players[i].instance:
+                            self.event_respawn = True
+                    if self.mode == menu.text[0]:
+                        planum = 1
+                    else:
+                        planum = 2
+                    if len(self.Sprites) == planum:
+                        self.event_respawn = False
+
+                    if not self.players[i].instancing:
+                        if self.event_respawn:
+                            pygame.time.set_timer(EVENT_RESPAW, 8000)
+                            self.players[i].instancing = True
+
+                if event.type == EVENT_RESPAW:
+                    for i in range(len(self.players)):
+                        if not self.players[i].instance:
+
+
+                            self.players[i].rect.topleft = self.players[i].respaw_point
+                            self.players[i].health = self.players[i].respaw_health
+                            self.Sprites.add(self.players[i])
+                            pygame.time.set_timer(EVENT_RESPAW, 0)
+                            self.players[i].instancing = False
+
+                            self.players[i].instance = True
+
+
+
                 if event.type == pygame.QUIT:
                     self.Exit = True
                 if event.type == pygame.KEYDOWN:
