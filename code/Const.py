@@ -38,8 +38,8 @@ ENTITY_SPEED = {
     'Enemy-1Shot': 6,
     'Enemy-2Shot': 7,
     'Enemy-3Shot': 9,
-    'Player-Shot':10
-
+    'Player-Shot':10,
+    'Player-Shot2': 10
 
 }
 exit_rect_level = exit_scren.get_rect(left=(150), top=35)
@@ -60,6 +60,7 @@ ENTITY_HEALTH = {
     'Enemy-2': 10,
     'Enemy-3': 7,
     'Player-Shot': 1,
+    'Player-Shot2': 1,
     'Enemy-1Shot': 1,
     'Enemy-2Shot': 1,
     'Enemy-3Shot': 1,

@@ -32,7 +32,7 @@ class EntityMediator:
         for i in range(len(entity_list)):
             test_entity = entity_list[i]
             EntityMediator.__verify_collision_window(test_entity)
-            EntityMediator.__shotPlayer_collision(entity_list, test_entity)
+            EntityMediator.__shotPlayer_collision(players,entity_list, test_entity)
             for l in range(len(players)):
                 players_test = players[l]
                 EntityMediator.__shotEnemy_collision(players_test, test_entity)
@@ -44,11 +44,21 @@ class EntityMediator:
                 entity_list.remove(ent)
 
     @staticmethod
-    def __shotPlayer_collision(entity_list, ent:Entity):
+    def __shotPlayer_collision(players, entity_list, ent:Entity):
         if isinstance(ent, PlayerShot):
             for i in range(len(entity_list)):
                 if isinstance (entity_list[i],Enemy):
                     if ent.rect in entity_list[i].rect:
                         ent.health -= 1
                         entity_list[i].health -= 1
+                        if entity_list[i].health == 0:
+                            if ent.name == 'Player-Shot':
+                                for i in range(len(players)):
+                                    if players[i].number == 1:
+                                        players[i].score += 100
+                            else:
+                                for i in range(len(players)):
+                                    if players[i].number == 2:
+                                        players[i].score += 100
+
 

@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.rect_heart_leaft = 80
         self.rect_heart_top = 15
         self.heart = pygame.image.load('asset/heart.png')
+        self.score = 0
 
         if number == 1:
             for i in range(10):
@@ -91,8 +92,10 @@ class Player(pygame.sprite.Sprite):
         self.shot_delay -= 1
         if self.shot_delay == 0:
             self.shot_delay = 10
-            return PlayerShot(name='Player-Shot', position = (self.rect.centerx,self.rect.centery +30))
-
+            if self.number == 1:
+                return PlayerShot(name='Player-Shot', position = (self.rect.centerx,self.rect.centery +30))
+            elif self.number == 2:
+                return PlayerShot(name='Player-Shot2', position = (self.rect.centerx,self.rect.centery +30))
 
     def HubHeart(self, window):
         rect_heart_leaft = self.rect_heart_leaft

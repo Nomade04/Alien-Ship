@@ -109,10 +109,11 @@ class Level:
                         if self.players[i].instance:
                             self.window.blit(source=self.players[i].HudPicture, dest=self.players[i].HudRect)
                             self.players[i].HubHeart(self.window)
+                            self.level_text(20, f"Score: {self.players[i].score}", COLOR_CIEN, (self.players[i].HudRect[0]+ 70,self.players[i].HudRect[1] + 25))
 
                         if not self.players[i].instance:
                             respaningIn = self.respawn_time - (time_now - self.last_event)
-                            self.level_text(20, f"Respawning in... {respaningIn//1000}", COLOR_WHITE, (self.players[i].HudRect[0],self.players[i].HudRect[1] + 25))
+                            self.level_text(25, f"Respawning in... {respaningIn//1000}", COLOR_WHITE, (self.players[i].HudRect[0],self.players[i].HudRect[1] + 25))
 
 
 
@@ -157,9 +158,9 @@ class Level:
                     pygame.quit()
                     quit()
 
-            self.level_text(20,f"fps: {Clock.get_fps() :.0f}",COLOR_WHITE,(10,WIN_HEIGHT -35))
-            self.level_text(25,f'{self.name} Time Out: | {self.TimeOut/1000//60 :.0f}: {self.TimeOut/1000%60 :.0f} m |', COLOR_WHITE,(10,5))
-            self.level_text(15, f'Entidades: {len(self.entity_list)-10}', COLOR_WHITE, (10, WIN_HEIGHT -15)  )
+            self.level_text(15,f"fps: {Clock.get_fps() :.0f}",COLOR_WHITE,(WIN_WIDTH-80,WIN_HEIGHT -35))
+            self.level_text(20,f'{self.name} Time Out: | {self.TimeOut/1000//60 :.0f}: {self.TimeOut/1000%60 :.0f} m |', COLOR_WHITE,(10, WIN_HEIGHT -25))
+            self.level_text(10, f'Entidades: {len(self.entity_list)-10}', COLOR_WHITE, (WIN_WIDTH-80, WIN_HEIGHT -15)  )
 
             for event in pygame.event.get():
                 if event.type == EVENT_ENEMY:
@@ -236,7 +237,7 @@ class Level:
                 self.menu_text(40, self.exit_listText[i], COLOR_WHITE, self.exit_listPosition[i])
 
     def level_text(self, text_size: int, text: str, color: tuple, text_pos: tuple):
-        text_font: Font = pygame.font.SysFont(name="lucida Sans Typewriter", size=text_size)
+        text_font: Font = pygame.font.SysFont(name="arial", size=text_size)
         text_surf: Surface = text_font.render(text, True, color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(left =text_pos[0],top =text_pos[1] )
         self.window.blit(source=text_surf, dest=text_rect)
