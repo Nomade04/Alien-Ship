@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.sprite = []
         self.atual = 0
         self.number = number
-        self.shot_delay = 5
+        self.shot_delay = 8
         self.health = 5
         self.instance = True
         self.respaw_health = 5
@@ -93,9 +93,9 @@ class Player(pygame.sprite.Sprite):
         if self.shot_delay == 0:
             self.shot_delay = 10
             if self.number == 1:
-                return PlayerShot(name='Player-Shot', position = (self.rect.centerx,self.rect.centery +30))
+                return PlayerShot(name='Player-Shot2', position = (self.rect.centerx,self.rect.centery +30),number=1)
             elif self.number == 2:
-                return PlayerShot(name='Player-Shot2', position = (self.rect.centerx,self.rect.centery +30))
+                return PlayerShot(name='Player-Shot2', position = (self.rect.centerx,self.rect.centery +30),number=2)
 
     def HubHeart(self, window):
         rect_heart_leaft = self.rect_heart_leaft

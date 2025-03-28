@@ -7,9 +7,8 @@ from pygame import Surface, Rect
 from pygame.font import Font
 
 from code import menu
-from code.Animacao import animacao
 from code.Const import COLOR_WHITE, WIN_WIDTH, exit_listPosition_level, exit_listText_level, exit_scren_level, \
-    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY, ANIM_DELAY, EVENT_RESPAW, PLAYER_CHEK
+    exit_rect_level, COLOR_CIEN, WIN_HEIGHT, text, EVENT_ENEMY, EVENT_RESPAW, PLAYER_CHEK
 from code.EnemyShot import EnemyShot
 from code.EntityMediator import EntityMediator
 from code.enemy import Enemy
@@ -21,6 +20,7 @@ from code.player import Player
 
 class Level:
     def __init__(self, window, name, mode):
+        self.menos_time = 0
         self.player_life = []
         self.last_event = pygame.time.get_ticks()
         self.respawn_time = 8000
@@ -34,7 +34,7 @@ class Level:
         self.name = name
         self.mode = mode
         self.entity_list: list[Entity] = []
-        self.entity_list.extend(EntityFactory.get_entity('level'))
+        self.entity_list.extend(EntityFactory.get_entity(self.name))
         self.players = []
         self.Sprites = pygame.sprite.Group()
         self.SpriteShot = pygame.sprite.Group()
@@ -48,7 +48,6 @@ class Level:
         self.players.append(self.player1)
         self.TimeOut = 300000
         self.Shot_animated = pygame.sprite.Group()
-        self.animation1 = animacao(1)
         pygame.time.set_timer(PLAYER_CHEK,100)
 
         pygame.time.set_timer(EVENT_ENEMY,1000*(random.randint(4,7)))#*(random.randint(2,7))
@@ -60,8 +59,13 @@ class Level:
 
 
         while True:
-            Clock.tick(60)
+            Clock.tick(30)
             time_now = pygame.time.get_ticks()
+            self.menos_time += 1
+
+            if self.menos_time == 30:
+                self.TimeOut -= 1000
+                self.menos_time = 0
 
             EntityMediator.verify_collision(players=self.players, entity_list= self.entity_list)
             EntityMediator.verify_health(entity_list= self.entity_list)
@@ -69,11 +73,12 @@ class Level:
             # print(len(self.Sprites))
             pressed_k = pygame.key.get_pressed()
             for i in range(len(self.players)):
-                if self.players[i].instance:
-                    if pressed_k[pygame.K_SPACE]:
-                        play_shot1 = self.player1.shot()
-                        if play_shot1 is not None:
-                            self.entity_list.append(play_shot1)
+                if self.players[i].number == 1:
+                    if self.players[i].instance:
+                        if pressed_k[pygame.K_SPACE]:
+                            play_shot1 = self.player1.shot()
+                            if play_shot1 is not None:
+                                self.entity_list.append(play_shot1)
                 if self.players[i].number == 2:
                     if self.players[i].instance:
                         if pressed_k[pygame.K_RCTRL]:
@@ -113,7 +118,7 @@ class Level:
 
                         if not self.players[i].instance:
                             respaningIn = self.respawn_time - (time_now - self.last_event)
-                            self.level_text(25, f"Respawning in... {respaningIn//1000}", COLOR_WHITE, (self.players[i].HudRect[0],self.players[i].HudRect[1] + 25))
+                            self.level_text(20, f"Respawning in... {respaningIn//1000}", COLOR_WHITE, (self.players[i].HudRect[0],self.players[i].HudRect[1] + 25))
 
 
 

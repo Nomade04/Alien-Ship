@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import pygame.key
 
-from code.Const import ENTITY_SPEED, WIN_WIDTH, SHOT_DELAY, ANIMATED_TIME, SHIP_FRAMES
+from code.Const import ENTITY_SPEED, WIN_WIDTH, SHOT_DELAY
 from code.EnemyShot import EnemyShot
 from code.entity import Entity
 

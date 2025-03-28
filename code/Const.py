@@ -27,18 +27,17 @@ select_list.append(((WIN_WIDTH / 2), 420))
 select_list.append(((WIN_WIDTH - 760), 460))
 #----------------lEVEL----------------------
 ENTITY_SPEED = {
-    'level_1': 0,
-    'level_2': 1,
-    'level_3': 2,
-    'level_4': 3,
-    'level_5': 4,
+    'Level 1_0': 0,
+    'Level 1_1': 1,
+    'Level 1_2': 2,
+    'Level 1_3': 3,
+    'Level 1_4': 4,
     'Enemy-1': 1,
     'Enemy-2': 2,
     'Enemy-3': 3,
     'Enemy-1Shot': 6,
     'Enemy-2Shot': 7,
     'Enemy-3Shot': 9,
-    'Player-Shot':10,
     'Player-Shot2': 10
 
 }
@@ -51,15 +50,14 @@ EVENT_RESPAW = pygame.USEREVENT + 2
 PLAYER_CHEK = pygame.USEREVENT + 3
 
 ENTITY_HEALTH = {
-    'level_1': 999,
-    'level_2': 999,
-    'level_3': 999,
-    'level_4': 999,
-    'level_5': 999,
-    'Enemy-1': 15,
-    'Enemy-2': 10,
-    'Enemy-3': 7,
-    'Player-Shot': 1,
+    'Level 1_0': 999,
+    'Level 1_1': 999,
+    'Level 1_2': 999,
+    'Level 1_3': 999,
+    'Level 1_4': 999,
+    'Enemy-1': 6,
+    'Enemy-2': 8,
+    'Enemy-3': 3,
     'Player-Shot2': 1,
     'Enemy-1Shot': 1,
     'Enemy-2Shot': 1,
@@ -72,20 +70,4 @@ SHOT_DELAY = {
     'Enemy-2': 70,
     'Enemy-3': 60,
 
-}
-ANIM_DELAY = {
-    1: 50,
-    2: 40,
-    3: 30,
-
-}
-SHIP_FRAMES = {
-    1 : 4,
-    2 : 6,
-    3 : 3
-}
-ANIMATED_TIME = {
-    1 : 1000,
-    2 : 1000,
-    3 : 1000
 }

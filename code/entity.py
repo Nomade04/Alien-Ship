@@ -13,7 +13,7 @@ class Entity(ABC):
         self.sprite = []
         self.atual = 0
         self.surf = pygame.image.load('./asset/' + name + '.png').convert_alpha()
-        if 'level' in name:
+        if 'Level' in name:
             self.surf = pygame.transform.scale(self.surf,(WIN_WIDTH,WIN_HEIGHT))
         if 'Enemy-1' in name:
             self.surf = pygame.transform.scale(self.surf,(80,45))

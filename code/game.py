@@ -22,6 +22,12 @@ class Game:
             if menu_return in [text[0],text[1],text[2]]:
                 level = Level(self.window,'Level 1', menu_return)
                 level_return = level.run()
+                if level_return:
+                    level_return = Level(self.window,'Level 2', menu_return).run()
+                    if level_return:
+                        level_return = Level(self.window,'Level 3', menu_return).run()
+                        if level_return:
+                            pass
 
 
 

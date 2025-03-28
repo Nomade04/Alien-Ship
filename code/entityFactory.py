@@ -12,11 +12,23 @@ class EntityFactory:
     @staticmethod
     def get_entity(entity_type: str, postion=(0, 0)):
         match entity_type:
-            case 'level':
+            case 'Level 1':
                 list_level = []
                 for i in range(5):
-                    list_level.append(Background(f'level_{i + 1}', (0, 0)))
-                    list_level.append(Background(f'level_{i + 1}', (WIN_WIDTH, 0)))
+                    list_level.append(Background(f'Level 1_{i}', (0, 0)))
+                    list_level.append(Background(f'Level 1_{i}', (WIN_WIDTH, 0)))
+                return list_level
+            case 'Level 2':
+                list_level = []
+                for i in range(5):
+                    list_level.append(Background(f'Level 2_{i}', (0, 0)))
+                    list_level.append(Background(f'Level 2_{i}', (WIN_WIDTH, 0)))
+                return list_level
+            case 'Level 3':
+                list_level = []
+                for i in range(5):
+                    list_level.append(Background(f'Level 3_{i}', (0, 0)))
+                    list_level.append(Background(f'Level 3_{i}', (WIN_WIDTH, 0)))
                 return list_level
             case 'Enemy-1':
                 return Enemy('Enemy-1',(WIN_WIDTH +10, random.randint(50, WIN_HEIGHT - 80)))

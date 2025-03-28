@@ -26,7 +26,6 @@ class EntityMediator:
                     players.health -= 1
 
 
-
     @staticmethod
     def verify_collision(players, entity_list: list[Entity]):
         for i in range(len(entity_list)):
@@ -44,7 +43,7 @@ class EntityMediator:
                 entity_list.remove(ent)
 
     @staticmethod
-    def __shotPlayer_collision(players, entity_list, ent:Entity):
+    def __shotPlayer_collision(players,entity_list, ent:Entity):
         if isinstance(ent, PlayerShot):
             for i in range(len(entity_list)):
                 if isinstance (entity_list[i],Enemy):
@@ -52,13 +51,25 @@ class EntityMediator:
                         ent.health -= 1
                         entity_list[i].health -= 1
                         if entity_list[i].health == 0:
-                            if ent.name == 'Player-Shot':
-                                for i in range(len(players)):
-                                    if players[i].number == 1:
-                                        players[i].score += 100
-                            else:
-                                for i in range(len(players)):
-                                    if players[i].number == 2:
-                                        players[i].score += 100
+                            if ent.number == 1:
+                                for l in range(len(players)):
+                                    if players[l].number == 1:
+                                        if entity_list[i].name == 'Enemy-1':
+                                            players[l].score += 25
+                                        elif entity_list[i].name == 'Enemy-2':
+                                            players[l].score += 50
+                                        else:
+                                            players[l].score += 10
+
+                            elif ent.number == 2:
+
+                                for l in range(len(players)):
+                                    if players[l].number == 2:
+                                        if entity_list[i].name == 'Enemy-1':
+                                            players[l].score += 25
+                                        elif entity_list[i].name == 'Enemy-2':
+                                            players[l].score += 50
+                                        else:
+                                            players[l].score += 10
 
 
