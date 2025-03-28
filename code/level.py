@@ -21,6 +21,9 @@ from code.player import Player
 
 class Level:
     def __init__(self, window, name, mode):
+        self.player_life = []
+        self.last_event = pygame.time.get_ticks()
+        self.respawn_time = 8000
         self.event_respawn = False
         self.rum = False
         self.atual = 0
@@ -58,10 +61,12 @@ class Level:
 
         while True:
             Clock.tick(60)
+            time_now = pygame.time.get_ticks()
+
             EntityMediator.verify_collision(players=self.players, entity_list= self.entity_list)
             EntityMediator.verify_health(entity_list= self.entity_list)
-
-            print(len(self.Sprites))
+            # print(self.respawn_time)
+            # print(len(self.Sprites))
             pressed_k = pygame.key.get_pressed()
             for i in range(len(self.players)):
                 if self.players[i].instance:
@@ -92,13 +97,25 @@ class Level:
                 #     pygame.time.set_timer(EVENT_RESPAW, 10000)
 
 
-                print(self.player1.health)
+                # print(self.player1.health)
 
                 for ent in self.entity_list:
                     self.window.blit(source=ent.surf, dest=ent.rect)
+
                     ent.move()
                     self.Sprites.draw(self.window)
                     self.Sprites.update()
+                    for i in range(len(self.players)):
+                        if self.players[i].instance:
+                            self.window.blit(source=self.players[i].HudPicture, dest=self.players[i].HudRect)
+                            self.players[i].HubHeart(self.window)
+
+                        if not self.players[i].instance:
+                            respaningIn = self.respawn_time - (time_now - self.last_event)
+                            self.level_text(20, f"Respawning in... {respaningIn//1000}", COLOR_WHITE, (self.players[i].HudRect[0],self.players[i].HudRect[1] + 25))
+
+
+
                     self.player1.move(1)
                     if self.mode in [text[1],text[2]]:
                         self.player2.move(2)
@@ -153,6 +170,7 @@ class Level:
                     for i in range(len(self.players)):
                         if not self.players[i].instance:
                             self.event_respawn = True
+
                     if self.mode == menu.text[0]:
                         planum = 1
                     else:
@@ -160,25 +178,24 @@ class Level:
                     if len(self.Sprites) == planum:
                         self.event_respawn = False
 
-                    if not self.players[i].instancing:
-                        if self.event_respawn:
-                            pygame.time.set_timer(EVENT_RESPAW, 8000)
-                            self.players[i].instancing = True
+                    for i in range(len(self.players)):
+                        if not self.players[i].instancing:
+                            if self.event_respawn:
+                                pygame.time.set_timer(EVENT_RESPAW, self.respawn_time)
+                                self.last_event = pygame.time.get_ticks()
+                                self.players[i].instancing = True
 
                 if event.type == EVENT_RESPAW:
+
+
                     for i in range(len(self.players)):
                         if not self.players[i].instance:
-
-
                             self.players[i].rect.topleft = self.players[i].respaw_point
                             self.players[i].health = self.players[i].respaw_health
                             self.Sprites.add(self.players[i])
                             pygame.time.set_timer(EVENT_RESPAW, 0)
                             self.players[i].instancing = False
-
                             self.players[i].instance = True
-
-
 
                 if event.type == pygame.QUIT:
                     self.Exit = True

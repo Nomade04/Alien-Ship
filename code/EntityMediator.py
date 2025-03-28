@@ -26,6 +26,7 @@ class EntityMediator:
                     players.health -= 1
 
 
+
     @staticmethod
     def verify_collision(players, entity_list: list[Entity]):
         for i in range(len(entity_list)):

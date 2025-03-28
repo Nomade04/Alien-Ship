@@ -17,6 +17,9 @@ class Player(pygame.sprite.Sprite):
         self.health = 5
         self.instance = True
         self.respaw_health = 5
+        self.rect_heart_leaft = 80
+        self.rect_heart_top = 15
+        self.heart = pygame.image.load('asset/heart.png')
 
         if number == 1:
             for i in range(10):
@@ -24,21 +27,32 @@ class Player(pygame.sprite.Sprite):
                 self.img = pygame.image.load('asset/' + self.name + '.png')
                 self.img = pygame.transform.scale(self.img, (100, 100))
                 self.sprite.append(self.img)
+                self.rect_heart_leaft = 80
+                self.rect_heart_top = 15
         elif number == 2:
             for i in range(10):
                 self.name = f'Player2-{i + 1}'
                 self.img = pygame.image.load('asset/' + self.name + '.png.png')
                 self.img = pygame.transform.scale(self.img, (100, 100))
                 self.sprite.append(self.img)
+                self.rect_heart_leaft = 270
+                self.rect_heart_top = 15
 
         self.image = self.sprite[self.atual]
         self.rect = self.image.get_rect()
         if number == 1:
-            self.rect.topleft = 10, WIN_HEIGHT / 3
+            self.rect.topleft = 10, WIN_HEIGHT / 2
             self.respaw_point = 10, WIN_HEIGHT / 3
+            self.HudPicture = pygame.image.load('asset/Player1-Picture.png').convert_alpha()
+            self.img = pygame.transform.scale(self.HudPicture, (100, 100))
+            self.HudRect = self.HudPicture.get_rect(left=10, top=10)
+
         elif number == 2:
-            self.rect.topleft = 10, WIN_HEIGHT / 8
+            self.rect.topleft = 10, WIN_HEIGHT / 5
             self.respaw_point = self.rect.topleft
+            self.HudPicture = pygame.image.load('asset/Player2-Picture.png')
+            self.img = pygame.transform.scale(self.HudPicture, (100, 100))
+            self.HudRect = self.HudPicture.get_rect(left=200, top=10)
 
 
     def move(self, number: int):
@@ -79,7 +93,13 @@ class Player(pygame.sprite.Sprite):
             self.shot_delay = 10
             return PlayerShot(name='Player-Shot', position = (self.rect.centerx,self.rect.centery +30))
 
-            # self.delay = self.shot_delay
+
+    def HubHeart(self, window):
+        rect_heart_leaft = self.rect_heart_leaft
+        for i in range(self.health):
+            window.blit(source=self.heart, dest=(rect_heart_leaft,self.rect_heart_top))
+            rect_heart_leaft+= 20
+
 
     def update(self):
         self.atual = self.atual + 0.04
